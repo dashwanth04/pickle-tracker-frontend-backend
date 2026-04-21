@@ -15,7 +15,7 @@ export default function Home() {
 
   async function loadOrders(){
     try{
-      const res=await fetch(`${API_URL}/orders`);
+      const res=await fetch("https://pickle-tracker-frontend-backend.onrender.com/orders");
       const data=await res.json();
       setOrders(data);
     }catch(err){
@@ -27,7 +27,7 @@ export default function Home() {
     const total = weight * price;
 
     try{
-      await fetch(`${API_URL}/orders`,{
+      await fetch(await fetch("https://pickle-tracker-frontend-backend.onrender.com/orders",{
         method:"POST",
         headers:{ "Content-Type":"application/json"},
         body:JSON.stringify({date,customer,pickle,weight,price,total})

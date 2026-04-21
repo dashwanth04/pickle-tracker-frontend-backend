@@ -4,5 +4,6 @@
       "src": "frontend",
       "use": "@vercel/next"
     }
-  ]
+  ],
+  "outputDirectory": "frontend"
 }

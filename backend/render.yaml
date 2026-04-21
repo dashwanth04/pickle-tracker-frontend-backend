@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: pickle-tracker-backend
+    env: node
+    buildCommand: ""
+    startCommand: node server.js
+    envVars:
+      - key: MONGO_URI
+        value: your_mongodb_connection_string_here
+      - key: PORT
+        value: 5000

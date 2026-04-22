@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import "../utils/teluguFont";
 import { useState, useEffect } from "react";
 
 const API_URL = "https://pickle-tracker-frontend-backend.onrender.com";
@@ -95,6 +96,8 @@ export default function Home() {
   const exportToPDF = () => {
 
   const doc = new jsPDF();
+
+   doc.setFont("NotoSansTelugu-Regular");
 
   doc.text("Pickle Delivery Report", 14, 10);
 

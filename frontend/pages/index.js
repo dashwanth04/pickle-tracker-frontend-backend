@@ -24,9 +24,6 @@ export default function Home() {
   async function loadOrders() {
     try {
       const res = await fetch(`${API_URL}/orders`);
-
-      if (!res.ok) throw new Error("API error");
-
       const data = await res.json();
       setOrders(data);
     } catch (err) {
@@ -36,7 +33,7 @@ export default function Home() {
 
   async function addOrder() {
     if (!formData.customer || !formData.pickle || !formData.price) {
-      alert("Please fill in all fields");
+      alert("Please fill all fields");
       return;
     }
 
@@ -76,15 +73,13 @@ export default function Home() {
 
       loadOrders();
     } catch (err) {
-      console.error("Failed to delete order:", err);
+      console.error("Delete failed:", err);
     }
   }
 
   const filteredOrders = orders.filter((order) => {
     return (
-      order.customer
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) &&
+      order.customer.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (filterDate === "" || order.date === filterDate) &&
       (filterPickle === "" || order.pickle === filterPickle)
     );
@@ -141,16 +136,15 @@ export default function Home() {
         >
           <option value="">All Pickles</option>
 
-          <optgroup label="Veg">
-            <option value="Mango">Mango</option>
-            <option value="Lemon">Lemon</option>
-            <option value="Garlic">Garlic</option>
-          </optgroup>
-
-          <optgroup label="Non-Veg">
-            <option value="Chicken">Chicken</option>
-            <option value="Prawns">Prawns</option>
-          </optgroup>
+          <option value="ఆవకాయ">ఆవకాయ</option>
+          <option value="మాగాయ">మాగాయ</option>
+          <option value="టమాటో">టమాటో</option>
+          <option value="నిమ్మకాయ">నిమ్మకాయ</option>
+          <option value="మిర్చి">మిర్చి</option>
+          <option value="అల్లం">అల్లం</option>
+          <option value="చికెన్">చికెన్</option>
+          <option value="రొయ్యలు">రొయ్యలు</option>
+          <option value="పాల కోవా">పాల కోవా</option>
         </select>
 
         <button onClick={exportToCSV} style={styles.exportBtn}>
@@ -186,11 +180,16 @@ export default function Home() {
           }
           style={styles.input}
         >
-          <option value="">Select Pickle</option>
-          <option value="Mango">Mango</option>
-          <option value="Chicken">Chicken</option>
-          <option value="Lemon">Lemon</option>
-          <option value="Prawns">Prawns</option>
+          <option value="">పచ్చడి ఎంచుకోండి</option>
+          <option value="ఆవకాయ">ఆవకాయ</option>
+          <option value="మాగాయ">మాగాయ</option>
+          <option value="టమాటో">టమాటో</option>
+          <option value="నిమ్మకాయ">నిమ్మకాయ</option>
+          <option value="మిర్చి">మిర్చి</option>
+          <option value="అల్లం">అల్లం</option>
+          <option value="చికెన్">చికెన్</option>
+          <option value="రొయ్యలు">రొయ్యలు</option>
+          <option value="పాల కోవా">పాల కోవా</option>
         </select>
 
         <select
@@ -242,7 +241,6 @@ export default function Home() {
               <td style={styles.td}>{o.pickle}</td>
               <td style={styles.td}>{o.weight} kg</td>
               <td style={styles.td}>₹{o.total}</td>
-
               <td style={styles.td}>
                 <button
                   onClick={() => deleteOrder(o._id)}

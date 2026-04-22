@@ -2,7 +2,7 @@ services:
   - type: web
     name: pickle-tracker-backend
     env: node
-    buildCommand: ""
+    buildCommand: npm install
     startCommand: node server.js
     envVars:
       - key: MONGO_URI

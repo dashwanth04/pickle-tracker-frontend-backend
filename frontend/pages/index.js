@@ -32,8 +32,9 @@ export default function Home() {
   }
 
   async function addOrder() {
+
     if (!formData.pickle || !formData.price) {
-      alert("Please fill all fields");
+      alert("Please select pickle and enter price");
       return;
     }
 
@@ -64,6 +65,7 @@ export default function Home() {
   }
 
   async function deleteOrder(id) {
+
     if (!confirm("Delete this order?")) return;
 
     try {
@@ -72,17 +74,22 @@ export default function Home() {
       });
 
       loadOrders();
+
     } catch (err) {
       console.error("Delete failed:", err);
     }
   }
 
   const filteredOrders = orders.filter((order) => {
+
     return (
-      order.customer.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (order.customer || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) &&
       (filterDate === "" || order.date === filterDate) &&
       (filterPickle === "" || order.pickle === filterPickle)
     );
+
   });
 
   const totalSales = filteredOrders.reduce(
@@ -94,11 +101,12 @@ export default function Home() {
     <div style={styles.page}>
       <div style={styles.container}>
 
-        <h2 style={styles.header}> Pickle Delivery Tracker</h2>
+        <h2 style={styles.header}>🥒 Pickle Delivery Tracker</h2>
 
         {/* Filters */}
 
         <div style={styles.searchFilter}>
+
           <input
             type="text"
             placeholder="🔎 Search Customer"
@@ -117,7 +125,6 @@ export default function Home() {
             style={styles.input}
           >
             <option value="">All Pickles</option>
-
             <option value="ఆవకాయ">ఆవకాయ</option>
             <option value="మాగాయ">మాగాయ</option>
             <option value="టమాటో">టమాటో</option>
@@ -128,6 +135,7 @@ export default function Home() {
             <option value="రొయ్యలు">రొయ్యలు</option>
             <option value="పాల కోవా">పాల కోవా</option>
           </select>
+
         </div>
 
         {/* Input Form */}
@@ -201,39 +209,51 @@ export default function Home() {
 
         {/* Table */}
 
-        <table style={styles.table}>
-          <thead>
-            <tr style={styles.thRow}>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Product</th>
-              <th>Weight</th>
-              <th>Price</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+        <div style={styles.tableWrapper}>
 
-          <tbody>
-            {filteredOrders.map((o) => (
-              <tr key={o._id} style={styles.row}>
-                <td>{o.date}</td>
-                <td>{o.customer}</td>
-                <td>{o.pickle}</td>
-                <td>{o.weight} kg</td>
-                <td>₹{o.total}</td>
+          <table style={styles.table}>
 
-                <td>
-                  <button
-                    onClick={() => deleteOrder(o._id)}
-                    style={styles.deleteBtn}
-                  >
-                    🗑 Delete
-                  </button>
-                </td>
+            <thead>
+              <tr style={styles.thRow}>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Weight</th>
+                <th>Price</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+
+              {filteredOrders.map((o) => (
+
+                <tr key={o._id} style={styles.row}>
+
+                  <td>{o.date}</td>
+                  <td>{o.customer || "Walk-in"}</td>
+                  <td>{o.pickle}</td>
+                  <td>{o.weight} kg</td>
+                  <td>₹{o.total}</td>
+
+                  <td>
+                    <button
+                      onClick={() => deleteOrder(o._id)}
+                      style={styles.deleteBtn}
+                    >
+                      🗑 Delete
+                    </button>
+                  </td>
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
 
         {/* Total Sales */}
 
@@ -251,38 +271,37 @@ const styles = {
   page: {
     minHeight: "100vh",
     background: "linear-gradient(135deg,#4facfe,#00f2fe)",
-    padding: "40px"
+    padding: "20px"
   },
 
   container: {
     maxWidth: "1100px",
     margin: "auto",
-    padding: "30px",
+    padding: "20px",
     background: "white",
     borderRadius: "18px",
-    boxShadow: "0 15px 50px rgba(0,0,0,0.2)"
+    boxShadow: "0 10px 40px rgba(0,0,0,0.2)"
   },
 
   header: {
     textAlign: "center",
-    fontSize: "30px",
+    fontSize: "24px",
     fontWeight: "bold",
-    marginBottom: "30px",
-    color: "#333"
+    marginBottom: "20px"
   },
 
   searchFilter: {
     display: "flex",
-    gap: "10px",
-    marginBottom: "20px",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    gap: "8px",
+    marginBottom: "20px"
   },
 
   inputCard: {
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))",
     gap: "10px",
-    flexWrap: "wrap",
-    padding: "20px",
+    padding: "15px",
     background: "#f6f8ff",
     borderRadius: "12px",
     marginBottom: "25px"
@@ -292,17 +311,22 @@ const styles = {
     padding: "10px",
     borderRadius: "8px",
     border: "1px solid #ccc",
-    fontSize: "14px"
+    fontSize: "14px",
+    width: "100%"
   },
 
   button: {
-    padding: "10px 18px",
+    padding: "10px",
     border: "none",
     borderRadius: "8px",
     background: "linear-gradient(135deg,#ff7e5f,#ff3f6c)",
     color: "white",
     fontWeight: "bold",
     cursor: "pointer"
+  },
+
+  tableWrapper: {
+    overflowX: "auto"
   },
 
   table: {
@@ -340,7 +364,8 @@ const styles = {
     color: "white",
     borderRadius: "10px",
     textAlign: "center",
-    fontSize: "20px",
+    fontSize: "18px",
     fontWeight: "bold"
   }
+
 };

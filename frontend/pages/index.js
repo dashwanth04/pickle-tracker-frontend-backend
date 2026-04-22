@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = "https://pickle-tracker-frontend-backend.onrender.com";
 
 export default function Home() {
   const [orders, setOrders] = useState([]);

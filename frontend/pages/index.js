@@ -67,6 +67,19 @@ export default function Home() {
     }
   }
 
+  async function deleteOrder(id) {
+    if (!confirm("Delete this order?")) return;
+
+    try {
+      await fetch(`${API_URL}/orders/${id}`, {
+        method: "DELETE"
+      });
+      loadOrders();
+    } catch (err) {
+      console.error("Failed to delete order:", err);
+    }
+  }
+
   const filteredOrders = orders.filter((order) => {
     return (
       order.customer
@@ -211,6 +224,7 @@ export default function Home() {
             <th style={styles.th}>Product</th>
             <th style={styles.th}>Weight</th>
             <th style={styles.th}>Total</th>
+            <th style={styles.th}>Action</th>
           </tr>
         </thead>
 
@@ -222,6 +236,14 @@ export default function Home() {
               <td style={styles.td}>{o.pickle}</td>
               <td style={styles.td}>{o.weight} kg</td>
               <td style={styles.td}>₹{o.total}</td>
+              <td style={styles.td}>
+                <button
+                  onClick={() => deleteOrder(o._id)}
+                  style={styles.deleteBtn}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -279,7 +301,15 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer"
   },
-  exportBtn: {
+  deleteBtn: {
+    padding: "5px 10px",
+    background: "#ff4444",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "12px"
+  },
     padding: "10px 20px",
     background: "#4a90a4",
     color: "white",

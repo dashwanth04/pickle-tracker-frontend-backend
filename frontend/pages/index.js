@@ -22,6 +22,7 @@ export default function Home() {
     date: "",
     customer: "",
     pickle: "",
+    customPickle: "",
     weight: "0.25",
     price: ""
   });
@@ -46,8 +47,13 @@ export default function Home() {
 
   async function addOrder() {
 
-    if (!formData.pickle || !formData.price) {
-      alert("Please select pickle and enter price");
+    const product =
+      formData.pickle === "other"
+        ? formData.customPickle
+        : formData.pickle;
+
+    if (!product || !formData.price) {
+      alert("Please select or enter product and price");
       return;
     }
 
@@ -60,7 +66,11 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ ...formData, total })
+        body: JSON.stringify({
+          ...formData,
+          pickle: product,
+          total
+        })
       });
 
       loadOrders();
@@ -69,6 +79,7 @@ export default function Home() {
         date: "",
         customer: "",
         pickle: "",
+        customPickle: "",
         weight: "0.25",
         price: ""
       });
@@ -112,8 +123,6 @@ export default function Home() {
     0
   );
 
-  /* ----------- SALES GRAPH DATA ----------- */
-
   const salesByDate = {};
 
   filteredOrders.forEach(order => {
@@ -147,13 +156,13 @@ export default function Home() {
 
         <h2 style={styles.header}>🥒 Pickle Delivery Tracker</h2>
 
-        {/* FILTERS */}
+        {/* Filters */}
 
         <div style={styles.searchFilter}>
 
           <input
             type="text"
-            placeholder="🔎 Search Customer"
+            placeholder="Search Customer"
             onChange={(e) => setSearchTerm(e.target.value)}
             style={styles.input}
           />
@@ -164,28 +173,9 @@ export default function Home() {
             style={styles.input}
           />
 
-          <select
-            onChange={(e) => setFilterPickle(e.target.value)}
-            style={styles.input}
-          >
-
-            <option value="">All Pickles</option>
-
-            <option value="ఆవకాయ">ఆవకాయ</option>
-            <option value="మాగాయ">మాగాయ</option>
-            <option value="టమాటో">టమాటో</option>
-            <option value="నిమ్మకాయ">నిమ్మకాయ</option>
-            <option value="మిర్చి">మిర్చి</option>
-            <option value="అల్లం">అల్లం</option>
-            <option value="చికెన్">చికెన్</option>
-            <option value="రొయ్యలు">రొయ్యలు</option>
-            <option value="పాల కోవా">పాల కోవా</option>
-
-          </select>
-
         </div>
 
-        {/* INPUT FORM */}
+        {/* Input Form */}
 
         <div style={styles.inputCard}>
 
@@ -227,7 +217,23 @@ export default function Home() {
             <option value="రొయ్యలు">రొయ్యలు</option>
             <option value="పాల కోవా">పాల కోవా</option>
 
+            <option value="other">Other</option>
+
           </select>
+
+          {formData.pickle === "other" && (
+
+            <input
+              type="text"
+              placeholder="Enter product name"
+              value={formData.customPickle}
+              onChange={(e) =>
+                setFormData({ ...formData, customPickle: e.target.value })
+              }
+              style={styles.input}
+            />
+
+          )}
 
           <select
             value={formData.weight}
@@ -254,12 +260,12 @@ export default function Home() {
           />
 
           <button onClick={addOrder} style={styles.button}>
-            ➕ Add Delivery
+            Add Delivery
           </button>
 
         </div>
 
-        {/* TABLE */}
+        {/* Table */}
 
         <div style={styles.tableWrapper}>
 
@@ -295,7 +301,7 @@ export default function Home() {
                       onClick={() => deleteOrder(o._id)}
                       style={styles.deleteBtn}
                     >
-                      🗑 Delete
+                      Delete
                     </button>
                   </td>
 
@@ -309,20 +315,13 @@ export default function Home() {
 
         </div>
 
-        {/* TOTAL SALES */}
-
         <div style={styles.totalSales}>
-          📊 Total Sales: ₹{totalSales.toFixed(2)}
+          Total Sales: ₹{totalSales.toFixed(2)}
         </div>
 
-        {/* SALES GRAPH */}
-
         <div style={styles.chartCard}>
-
-          <h3 style={{marginBottom:10}}>📈 Daily Sales Graph</h3>
-
+          <h3>Daily Sales Graph</h3>
           <Bar data={chartData} />
-
         </div>
 
       </div>
@@ -358,8 +357,7 @@ const styles = {
 
   searchFilter: {
     display: "flex",
-    flexWrap: "wrap",
-    gap: "8px",
+    gap: "10px",
     marginBottom: "20px"
   },
 
@@ -384,7 +382,7 @@ const styles = {
     padding: "10px",
     border: "none",
     borderRadius: "8px",
-    background: "linear-gradient(135deg,#ff7e5f,#ff3f6c)",
+    background: "#ff3f6c",
     color: "white",
     fontWeight: "bold",
     cursor: "pointer"
@@ -396,9 +394,7 @@ const styles = {
 
   table: {
     width: "100%",
-    borderCollapse: "collapse",
-    background: "#fff",
-    boxShadow: "0 5px 20px rgba(0,0,0,0.1)"
+    borderCollapse: "collapse"
   },
 
   thRow: {
@@ -423,7 +419,7 @@ const styles = {
   totalSales: {
     marginTop: "25px",
     padding: "20px",
-    background: "linear-gradient(135deg,#00b09b,#96c93d)",
+    background: "#00b09b",
     color: "white",
     borderRadius: "10px",
     textAlign: "center",

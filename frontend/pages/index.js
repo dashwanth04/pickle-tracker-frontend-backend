@@ -4,10 +4,12 @@ const API_URL = "https://pickle-tracker-frontend-backend.onrender.com";
 
 export default function Home() {
   const [orders, setOrders] = useState([]);
+
   const [formData, setFormData] = useState({
     date: "",
     customer: "",
     pickle: "",
+    weight: "0.25",
     price: ""
   });
 
@@ -23,9 +25,7 @@ export default function Home() {
     try {
       const res = await fetch(`${API_URL}/orders`);
 
-      if (!res.ok) {
-        throw new Error("API error");
-      }
+      if (!res.ok) throw new Error("API error");
 
       const data = await res.json();
       setOrders(data);
@@ -57,15 +57,17 @@ export default function Home() {
         date: "",
         customer: "",
         pickle: "",
+        weight: "0.25",
         price: ""
       });
+
     } catch (err) {
       console.error("Failed to add order:", err);
     }
   }
 
   async function deleteOrder(id) {
-    if (!confirm("Are you sure you want to delete this order?")) return;
+    if (!confirm("Delete this order?")) return;
 
     try {
       await fetch(`${API_URL}/orders/${id}`, {
@@ -94,12 +96,12 @@ export default function Home() {
   );
 
   const exportToCSV = () => {
-    const headers = "Date,Customer,Pickle,Price\n";
+    const headers = "Date,Customer,Pickle,Weight,Price\n";
 
     const rows = filteredOrders
       .map(
         (o) =>
-          `${o.date},${o.customer},${o.pickle},${o.total}`
+          `${o.date},${o.customer},${o.pickle},${o.weight},${o.total}`
       )
       .join("\n");
 
@@ -116,6 +118,8 @@ export default function Home() {
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>🥒 Pickle Delivery Tracker</h2>
+
+      {/* Filters */}
 
       <div style={styles.searchFilter}>
         <input
@@ -154,6 +158,8 @@ export default function Home() {
         </button>
       </div>
 
+      {/* Input Form */}
+
       <div style={styles.inputGroup}>
         <input
           type="date"
@@ -187,6 +193,18 @@ export default function Home() {
           <option value="Prawns">Prawns</option>
         </select>
 
+        <select
+          value={formData.weight}
+          onChange={(e) =>
+            setFormData({ ...formData, weight: e.target.value })
+          }
+          style={styles.input}
+        >
+          <option value="0.25">250 g</option>
+          <option value="0.5">500 g</option>
+          <option value="1">1 kg</option>
+        </select>
+
         <input
           type="number"
           placeholder="Price"
@@ -202,12 +220,15 @@ export default function Home() {
         </button>
       </div>
 
+      {/* Table */}
+
       <table style={styles.table}>
         <thead>
           <tr style={styles.thRow}>
             <th style={styles.th}>Date</th>
             <th style={styles.th}>Customer</th>
             <th style={styles.th}>Product</th>
+            <th style={styles.th}>Weight</th>
             <th style={styles.th}>Price</th>
             <th style={styles.th}>Action</th>
           </tr>
@@ -219,7 +240,9 @@ export default function Home() {
               <td style={styles.td}>{o.date}</td>
               <td style={styles.td}>{o.customer}</td>
               <td style={styles.td}>{o.pickle}</td>
+              <td style={styles.td}>{o.weight} kg</td>
               <td style={styles.td}>₹{o.total}</td>
+
               <td style={styles.td}>
                 <button
                   onClick={() => deleteOrder(o._id)}
@@ -232,6 +255,8 @@ export default function Home() {
           ))}
         </tbody>
       </table>
+
+      {/* Total Sales */}
 
       <div style={styles.totalSales}>
         <h3>Total Sales: ₹{totalSales.toFixed(2)}</h3>
@@ -250,11 +275,12 @@ const styles = {
     boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
     fontFamily: "'Segoe UI', sans-serif"
   },
+
   header: {
     textAlign: "center",
-    color: "#333",
     marginBottom: "25px"
   },
+
   inputGroup: {
     display: "flex",
     flexWrap: "wrap",
@@ -262,6 +288,7 @@ const styles = {
     justifyContent: "center",
     marginBottom: "20px"
   },
+
   searchFilter: {
     display: "flex",
     flexWrap: "wrap",
@@ -271,11 +298,13 @@ const styles = {
     padding: "15px",
     borderRadius: "8px"
   },
+
   input: {
     padding: "10px",
     border: "1px solid #ccc",
     borderRadius: "5px"
   },
+
   button: {
     padding: "10px 20px",
     background: "#333",
@@ -284,6 +313,7 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer"
   },
+
   exportBtn: {
     padding: "10px 20px",
     background: "#4a90a4",
@@ -292,6 +322,7 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer"
   },
+
   deleteBtn: {
     padding: "6px 12px",
     background: "#e74c3c",
@@ -300,23 +331,28 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer"
   },
+
   table: {
     width: "100%",
     borderCollapse: "collapse",
     marginTop: "20px"
   },
+
   thRow: {
     background: "#333",
     color: "white"
   },
+
   th: {
     padding: "12px"
   },
+
   td: {
     padding: "12px",
     textAlign: "center",
     borderBottom: "1px solid #ddd"
   },
+
   totalSales: {
     marginTop: "20px",
     padding: "20px",

@@ -8,7 +8,6 @@ export default function Home() {
     date: "",
     customer: "",
     pickle: "",
-    weight: "0.25",
     price: ""
   });
 
@@ -41,8 +40,7 @@ export default function Home() {
       return;
     }
 
-    const total =
-      parseFloat(formData.weight) * parseFloat(formData.price);
+    const total = parseFloat(formData.price);
 
     try {
       await fetch(`${API_URL}/orders`, {
@@ -59,26 +57,26 @@ export default function Home() {
         date: "",
         customer: "",
         pickle: "",
-        weight: "0.25",
         price: ""
       });
     } catch (err) {
       console.error("Failed to add order:", err);
     }
   }
+
   async function deleteOrder(id) {
-  if (!confirm("Are you sure you want to delete this order?")) return;
+    if (!confirm("Are you sure you want to delete this order?")) return;
 
-  try {
-    await fetch(`${API_URL}/orders/${id}`, {
-      method: "DELETE"
-    });
+    try {
+      await fetch(`${API_URL}/orders/${id}`, {
+        method: "DELETE"
+      });
 
-    loadOrders(); // refresh orders
-  } catch (err) {
-    console.error("Failed to delete order:", err);
+      loadOrders();
+    } catch (err) {
+      console.error("Failed to delete order:", err);
+    }
   }
-}
 
   const filteredOrders = orders.filter((order) => {
     return (
@@ -96,12 +94,12 @@ export default function Home() {
   );
 
   const exportToCSV = () => {
-    const headers = "Date,Customer,Pickle,Weight,Price,Total\n";
+    const headers = "Date,Customer,Pickle,Price\n";
 
     const rows = filteredOrders
       .map(
         (o) =>
-          `${o.date},${o.customer},${o.pickle},${o.weight},${o.price},${o.total}`
+          `${o.date},${o.customer},${o.pickle},${o.total}`
       )
       .join("\n");
 
@@ -189,21 +187,9 @@ export default function Home() {
           <option value="Prawns">Prawns</option>
         </select>
 
-        <select
-          value={formData.weight}
-          onChange={(e) =>
-            setFormData({ ...formData, weight: e.target.value })
-          }
-          style={styles.input}
-        >
-          <option value="0.25">250 g</option>
-          <option value="0.5">500 g</option>
-          <option value="1">1 kg</option>
-        </select>
-
         <input
           type="number"
-          placeholder="Price per kg"
+          placeholder="Price"
           value={formData.price}
           onChange={(e) =>
             setFormData({ ...formData, price: e.target.value })
@@ -222,30 +208,29 @@ export default function Home() {
             <th style={styles.th}>Date</th>
             <th style={styles.th}>Customer</th>
             <th style={styles.th}>Product</th>
-            <th style={styles.th}>Weight</th>
-            <th style={styles.th}>Total</th>
+            <th style={styles.th}>Price</th>
+            <th style={styles.th}>Action</th>
           </tr>
         </thead>
 
-       <tbody>
-  {filteredOrders.map((o) => (
-    <tr key={o._id}>
-      <td style={styles.td}>{o.date}</td>
-      <td style={styles.td}>{o.customer}</td>
-      <td style={styles.td}>{o.pickle}</td>
-      <td style={styles.td}>{o.weight} kg</td>
-      <td style={styles.td}>₹{o.total}</td>
-      <td style={styles.td}>
-        <button
-          onClick={() => deleteOrder(o._id)}
-          style={styles.deleteBtn}
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
+        <tbody>
+          {filteredOrders.map((o) => (
+            <tr key={o._id}>
+              <td style={styles.td}>{o.date}</td>
+              <td style={styles.td}>{o.customer}</td>
+              <td style={styles.td}>{o.pickle}</td>
+              <td style={styles.td}>₹{o.total}</td>
+              <td style={styles.td}>
+                <button
+                  onClick={() => deleteOrder(o._id)}
+                  style={styles.deleteBtn}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
 
       <div style={styles.totalSales}>
@@ -289,8 +274,7 @@ const styles = {
   input: {
     padding: "10px",
     border: "1px solid #ccc",
-    borderRadius: "5px",
-    fontSize: "14px"
+    borderRadius: "5px"
   },
   button: {
     padding: "10px 20px",
@@ -303,6 +287,14 @@ const styles = {
   exportBtn: {
     padding: "10px 20px",
     background: "#4a90a4",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer"
+  },
+  deleteBtn: {
+    padding: "6px 12px",
+    background: "#e74c3c",
     color: "white",
     border: "none",
     borderRadius: "5px",

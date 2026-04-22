@@ -92,44 +92,6 @@ export default function Home() {
     0
   );
 
-  const exportToPDF = async () => {
-
-  const { jsPDF } = await import("jspdf");
-  const autoTable = (await import("jspdf-autotable")).default;
-
-  const doc = new jsPDF();
-
-  doc.text("Pickle Delivery Report", 14, 10);
-
-  const tableColumn = [
-    "Date",
-    "Customer",
-    "Product",
-    "Weight",
-    "Price"
-  ];
-
-  const tableRows = [];
-
-  filteredOrders.forEach(order => {
-    tableRows.push([
-      order.date,
-      order.customer,
-      order.pickle,
-      order.weight + " kg",
-      "Rs " + order.total
-    ]);
-  });
-
-  autoTable(doc, {
-    head: [tableColumn],
-    body: tableRows,
-    startY: 20
-  });
-
-  doc.save("pickle_orders.pdf");
-};
-
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>🥒 Pickle Delivery Tracker</h2>
@@ -166,10 +128,6 @@ export default function Home() {
           <option value="రొయ్యలు">రొయ్యలు</option>
           <option value="పాల కోవా">పాల కోవా</option>
         </select>
-
-        <button onClick={exportToPDF} style={styles.exportBtn}>
-  Export PDF
-</button>
       </div>
 
       {/* Input Form */}

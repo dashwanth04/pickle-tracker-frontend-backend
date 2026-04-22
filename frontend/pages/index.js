@@ -109,13 +109,15 @@ export default function Home() {
   const tableRows = [];
 
   filteredOrders.forEach(order => {
-    tableRows.push([
-      order.date,
-      order.customer,
-      order.pickle,
-      order.weight + " kg",
-      "₹" + order.total
-    ]);
+    const rowData = [
+      order.date || "",
+      order.customer || "",
+      order.pickle || "",
+      (order.weight || "") + " kg",
+      "₹ " + (order.total || 0)
+    ];
+
+    tableRows.push(rowData);
   });
 
   autoTable(doc, {

@@ -164,9 +164,9 @@ export default function Home() {
           <option value="పాల కోవా">పాల కోవా</option>
         </select>
 
-        <button onClick={exportToCSV} style={styles.exportBtn}>
-          Export CSV
-        </button>
+        <button onClick={exportToPDF} style={styles.exportBtn}>
+  Export PDF
+</button>
       </div>
 
       {/* Input Form */}

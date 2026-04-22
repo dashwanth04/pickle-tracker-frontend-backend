@@ -23,7 +23,7 @@ export default function Home() {
   }
 
   async function addOrder() {
-    const total = weight * price;
+    const total = Number(weight) * Number(price);
 
     try {
       await fetch(`${API_URL}/orders`, {
@@ -62,7 +62,7 @@ export default function Home() {
         </thead>
         <tbody>
           {orders.map((o, i) => (
-            <tr key={i}>
+           <tr key={o._id}>
               <td>{o.customer}</td>
               <td>{o.pickle}</td>
               <td>{o.weight}</td>

@@ -1,3 +1,5 @@
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { useState, useEffect } from "react";
 
 const API_URL = "https://pickle-tracker-frontend-backend.onrender.com";
@@ -90,25 +92,40 @@ export default function Home() {
     0
   );
 
-  const exportToCSV = () => {
-    const headers = "Date,Customer,Pickle,Weight,Price\n";
+  const exportToPDF = () => {
 
-    const rows = filteredOrders
-      .map(
-        (o) =>
-          `${o.date},${o.customer},${o.pickle},${o.weight},${o.total}`
-      )
-      .join("\n");
+  const doc = new jsPDF();
 
-    const blob = new Blob([headers + rows], { type: "text/csv" });
+  doc.text("Pickle Delivery Report", 14, 10);
 
-    const url = window.URL.createObjectURL(blob);
+  const tableColumn = [
+    "Date",
+    "Customer",
+    "Product",
+    "Weight",
+    "Price"
+  ];
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "pickle_orders.csv";
-    a.click();
-  };
+  const tableRows = [];
+
+  filteredOrders.forEach(order => {
+    tableRows.push([
+      order.date,
+      order.customer,
+      order.pickle,
+      order.weight + " kg",
+      "₹" + order.total
+    ]);
+  });
+
+  autoTable(doc, {
+    head: [tableColumn],
+    body: tableRows,
+    startY: 20
+  });
+
+  doc.save("pickle_orders.pdf");
+};
 
   return (
     <div style={styles.container}>

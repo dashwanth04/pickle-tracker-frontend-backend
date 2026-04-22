@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const path = require("path");
 
 const orderRoutes = require("./routes/orderRoutes");
 
@@ -15,17 +14,11 @@ mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("MongoDB Connected"))
 .catch(err=>console.log(err));
 
-// API routes
-app.use("/orders", orderRoutes);
-
-// Serve frontend static files from monorepo
-const frontendPath = path.join(__dirname, "../frontend/out");
-app.use(express.static(frontendPath));
-
-// Catch-all route for client-side routing
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+app.get("/", (req, res) => {
+  res.send("Pickle Tracker Backend Running 🚀");
 });
+
+app.use("/orders", orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 

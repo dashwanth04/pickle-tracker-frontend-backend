@@ -1,5 +1,4 @@
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+
 import "../utils/teluguFont";
 import { useState, useEffect } from "react";
 
@@ -93,11 +92,12 @@ export default function Home() {
     0
   );
 
-  const exportToPDF = () => {
+  const exportToPDF = async () => {
+
+  const { jsPDF } = await import("jspdf");
+  const autoTable = (await import("jspdf-autotable")).default;
 
   const doc = new jsPDF();
-
-   doc.setFont("NotoSansTelugu-Regular");
 
   doc.text("Pickle Delivery Report", 14, 10);
 
@@ -112,15 +112,13 @@ export default function Home() {
   const tableRows = [];
 
   filteredOrders.forEach(order => {
-    const rowData = [
-      order.date || "",
-      order.customer || "",
-      order.pickle || "",
-      (order.weight || "") + " kg",
-      "₹ " + (order.total || 0)
-    ];
-
-    tableRows.push(rowData);
+    tableRows.push([
+      order.date,
+      order.customer,
+      order.pickle,
+      order.weight + " kg",
+      "Rs " + order.total
+    ]);
   });
 
   autoTable(doc, {

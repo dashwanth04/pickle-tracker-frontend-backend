@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 const API_URL = "https://pickle-tracker-frontend-backend.onrender.com";
@@ -92,248 +91,256 @@ export default function Home() {
   );
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.header}>👵🏻Pickle Delivery Tracker</h2>
+    <div style={styles.page}>
+      <div style={styles.container}>
 
-      {/* Filters */}
+        <h2 style={styles.header}> Pickle Delivery Tracker</h2>
 
-      <div style={styles.searchFilter}>
-        <input
-          type="text"
-          placeholder="Search Customer"
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={styles.input}
-        />
+        {/* Filters */}
 
-        <input
-          type="date"
-          onChange={(e) => setFilterDate(e.target.value)}
-          style={styles.input}
-        />
+        <div style={styles.searchFilter}>
+          <input
+            type="text"
+            placeholder="🔎 Search Customer"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={styles.input}
+          />
 
-        <select
-          onChange={(e) => setFilterPickle(e.target.value)}
-          style={styles.input}
-        >
-          <option value="">All Pickles</option>
+          <input
+            type="date"
+            onChange={(e) => setFilterDate(e.target.value)}
+            style={styles.input}
+          />
 
-          <option value="ఆవకాయ">ఆవకాయ</option>
-          <option value="మాగాయ">మాగాయ</option>
-          <option value="టమాటో">టమాటో</option>
-          <option value="నిమ్మకాయ">నిమ్మకాయ</option>
-          <option value="మిర్చి">మిర్చి</option>
-          <option value="అల్లం">అల్లం</option>
-          <option value="చికెన్">చికెన్</option>
-          <option value="రొయ్యలు">రొయ్యలు</option>
-          <option value="పాల కోవా">పాల కోవా</option>
-        </select>
-      </div>
+          <select
+            onChange={(e) => setFilterPickle(e.target.value)}
+            style={styles.input}
+          >
+            <option value="">All Pickles</option>
 
-      {/* Input Form */}
+            <option value="ఆవకాయ">ఆవకాయ</option>
+            <option value="మాగాయ">మాగాయ</option>
+            <option value="టమాటో">టమాటో</option>
+            <option value="నిమ్మకాయ">నిమ్మకాయ</option>
+            <option value="మిర్చి">మిర్చి</option>
+            <option value="అల్లం">అల్లం</option>
+            <option value="చికెన్">చికెన్</option>
+            <option value="రొయ్యలు">రొయ్యలు</option>
+            <option value="పాల కోవా">పాల కోవా</option>
+          </select>
+        </div>
 
-      <div style={styles.inputGroup}>
-        <input
-          type="date"
-          value={formData.date}
-          onChange={(e) =>
-            setFormData({ ...formData, date: e.target.value })
-          }
-          style={styles.input}
-        />
+        {/* Input Form */}
 
-        <input
-          placeholder="Customer Name"
-          value={formData.customer}
-          onChange={(e) =>
-            setFormData({ ...formData, customer: e.target.value })
-          }
-          style={styles.input}
-        />
+        <div style={styles.inputCard}>
 
-        <select
-          value={formData.pickle}
-          onChange={(e) =>
-            setFormData({ ...formData, pickle: e.target.value })
-          }
-          style={styles.input}
-        >
-          <option value="">పచ్చడి ఎంచుకోండి</option>
-          <option value="ఆవకాయ">ఆవకాయ</option>
-          <option value="మాగాయ">మాగాయ</option>
-          <option value="టమాటో">టమాటో</option>
-          <option value="నిమ్మకాయ">నిమ్మకాయ</option>
-          <option value="మిర్చి">మిర్చి</option>
-          <option value="అల్లం">అల్లం</option>
-          <option value="చికెన్">చికెన్</option>
-          <option value="రొయ్యలు">రొయ్యలు</option>
-          <option value="పాల కోవా">పాల కోవా</option>
-        </select>
+          <input
+            type="date"
+            value={formData.date}
+            onChange={(e) =>
+              setFormData({ ...formData, date: e.target.value })
+            }
+            style={styles.input}
+          />
 
-        <select
-          value={formData.weight}
-          onChange={(e) =>
-            setFormData({ ...formData, weight: e.target.value })
-          }
-          style={styles.input}
-        >
-          <option value="0.25">250 g</option>
-          <option value="0.5">500 g</option>
-          <option value="1">1 kg</option>
-        </select>
+          <input
+            placeholder="👤 Customer Name"
+            value={formData.customer}
+            onChange={(e) =>
+              setFormData({ ...formData, customer: e.target.value })
+            }
+            style={styles.input}
+          />
 
-        <input
-          type="number"
-          placeholder="Price"
-          value={formData.price}
-          onChange={(e) =>
-            setFormData({ ...formData, price: e.target.value })
-          }
-          style={styles.input}
-        />
+          <select
+            value={formData.pickle}
+            onChange={(e) =>
+              setFormData({ ...formData, pickle: e.target.value })
+            }
+            style={styles.input}
+          >
+            <option value="">Pickle Type</option>
+            <option value="ఆవకాయ">ఆవకాయ</option>
+            <option value="మాగాయ">మాగాయ</option>
+            <option value="టమాటో">టమాటో</option>
+            <option value="నిమ్మకాయ">నిమ్మకాయ</option>
+            <option value="మిర్చి">మిర్చి</option>
+            <option value="అల్లం">అల్లం</option>
+            <option value="చికెన్">చికెన్</option>
+            <option value="రొయ్యలు">రొయ్యలు</option>
+            <option value="పాల కోవా">పాల కోవా</option>
+          </select>
 
-        <button onClick={addOrder} style={styles.button}>
-          ➕ Add Delivery
-        </button>
-      </div>
+          <select
+            value={formData.weight}
+            onChange={(e) =>
+              setFormData({ ...formData, weight: e.target.value })
+            }
+            style={styles.input}
+          >
+            <option value="0.25">250 g</option>
+            <option value="0.5">500 g</option>
+            <option value="1">1 kg</option>
+          </select>
 
-      {/* Table */}
+          <input
+            type="number"
+            placeholder="💰 Price"
+            value={formData.price}
+            onChange={(e) =>
+              setFormData({ ...formData, price: e.target.value })
+            }
+            style={styles.input}
+          />
 
-      <table style={styles.table}>
-        <thead>
-          <tr style={styles.thRow}>
-            <th style={styles.th}>Date</th>
-            <th style={styles.th}>Customer</th>
-            <th style={styles.th}>Product</th>
-            <th style={styles.th}>Weight</th>
-            <th style={styles.th}>Price</th>
-            <th style={styles.th}>Action</th>
-          </tr>
-        </thead>
+          <button onClick={addOrder} style={styles.button}>
+            ➕ Add Delivery
+          </button>
 
-        <tbody>
-          {filteredOrders.map((o) => (
-            <tr key={o._id}>
-              <td style={styles.td}>{o.date}</td>
-              <td style={styles.td}>{o.customer}</td>
-              <td style={styles.td}>{o.pickle}</td>
-              <td style={styles.td}>{o.weight} kg</td>
-              <td style={styles.td}>₹{o.total}</td>
-              <td style={styles.td}>
-                <button
-                  onClick={() => deleteOrder(o._id)}
-                  style={styles.deleteBtn}
-                >
-                  🗑️ Delete
-                </button>
-              </td>
+        </div>
+
+        {/* Table */}
+
+        <table style={styles.table}>
+          <thead>
+            <tr style={styles.thRow}>
+              <th>Date</th>
+              <th>Customer</th>
+              <th>Product</th>
+              <th>Weight</th>
+              <th>Price</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
 
-      {/* Total Sales */}
+          <tbody>
+            {filteredOrders.map((o) => (
+              <tr key={o._id} style={styles.row}>
+                <td>{o.date}</td>
+                <td>{o.customer}</td>
+                <td>{o.pickle}</td>
+                <td>{o.weight} kg</td>
+                <td>₹{o.total}</td>
 
-      <div style={styles.totalSales}>
-        <h3> 📊 Total Sales: ₹{totalSales.toFixed(2)}</h3>
+                <td>
+                  <button
+                    onClick={() => deleteOrder(o._id)}
+                    style={styles.deleteBtn}
+                  >
+                    🗑 Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Total Sales */}
+
+        <div style={styles.totalSales}>
+          📊 Total Sales: ₹{totalSales.toFixed(2)}
+        </div>
+
       </div>
     </div>
   );
 }
 
 const styles = {
+
+  page: {
+    minHeight: "100vh",
+    background: "linear-gradient(135deg,#4facfe,#00f2fe)",
+    padding: "40px"
+  },
+
   container: {
-    maxWidth: "1000px",
-    margin: "20px auto",
+    maxWidth: "1100px",
+    margin: "auto",
     padding: "30px",
     background: "white",
-    borderRadius: "15px",
-    boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
-    fontFamily: "'Segoe UI', sans-serif"
+    borderRadius: "18px",
+    boxShadow: "0 15px 50px rgba(0,0,0,0.2)"
   },
 
   header: {
     textAlign: "center",
-    marginBottom: "25px"
-  },
-
-  inputGroup: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "10px",
-    justifyContent: "center",
-    marginBottom: "20px"
+    fontSize: "30px",
+    fontWeight: "bold",
+    marginBottom: "30px",
+    color: "#333"
   },
 
   searchFilter: {
     display: "flex",
-    flexWrap: "wrap",
     gap: "10px",
     marginBottom: "20px",
-    background: "#f0f0f0",
-    padding: "15px",
-    borderRadius: "8px"
+    flexWrap: "wrap"
+  },
+
+  inputCard: {
+    display: "flex",
+    gap: "10px",
+    flexWrap: "wrap",
+    padding: "20px",
+    background: "#f6f8ff",
+    borderRadius: "12px",
+    marginBottom: "25px"
   },
 
   input: {
     padding: "10px",
+    borderRadius: "8px",
     border: "1px solid #ccc",
-    borderRadius: "5px"
+    fontSize: "14px"
   },
 
   button: {
-    padding: "10px 20px",
-    background: "#333",
-    color: "white",
+    padding: "10px 18px",
     border: "none",
-    borderRadius: "5px",
-    cursor: "pointer"
-  },
-
-  exportBtn: {
-    padding: "10px 20px",
-    background: "#4a90a4",
+    borderRadius: "8px",
+    background: "linear-gradient(135deg,#ff7e5f,#ff3f6c)",
     color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer"
-  },
-
-  deleteBtn: {
-    padding: "6px 12px",
-    background: "#e74c3c",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
+    fontWeight: "bold",
     cursor: "pointer"
   },
 
   table: {
     width: "100%",
     borderCollapse: "collapse",
-    marginTop: "20px"
+    background: "#fff",
+    borderRadius: "10px",
+    overflow: "hidden",
+    boxShadow: "0 5px 20px rgba(0,0,0,0.1)"
   },
 
   thRow: {
-    background: "#333",
+    background: "#2c3e50",
     color: "white"
   },
 
-  th: {
-    padding: "12px"
+  row: {
+    textAlign: "center",
+    borderBottom: "1px solid #eee"
   },
 
-  td: {
-    padding: "12px",
-    textAlign: "center",
-    borderBottom: "1px solid #ddd"
+  deleteBtn: {
+    padding: "6px 12px",
+    background: "#ff4d4d",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer"
   },
 
   totalSales: {
-    marginTop: "20px",
+    marginTop: "25px",
     padding: "20px",
-    background: "#333",
+    background: "linear-gradient(135deg,#00b09b,#96c93d)",
     color: "white",
-    borderRadius: "8px",
-    textAlign: "center"
+    borderRadius: "10px",
+    textAlign: "center",
+    fontSize: "20px",
+    fontWeight: "bold"
   }
 };

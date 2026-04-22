@@ -192,7 +192,7 @@ export default function Home() {
         />
 
         <button onClick={addOrder} style={styles.button}>
-          Add Delivery
+          ➕ Add Delivery
         </button>
       </div>
 
@@ -223,7 +223,7 @@ export default function Home() {
                   onClick={() => deleteOrder(o._id)}
                   style={styles.deleteBtn}
                 >
-                  Delete
+                  🗑️ Delete
                 </button>
               </td>
             </tr>
@@ -234,7 +234,7 @@ export default function Home() {
       {/* Total Sales */}
 
       <div style={styles.totalSales}>
-        <h3>Total Sales: ₹{totalSales.toFixed(2)}</h3>
+        <h3> 📊 Total Sales: ₹{totalSales.toFixed(2)}</h3>
       </div>
     </div>
   );

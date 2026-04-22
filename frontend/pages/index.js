@@ -66,6 +66,19 @@ export default function Home() {
       console.error("Failed to add order:", err);
     }
   }
+  async function deleteOrder(id) {
+  if (!confirm("Are you sure you want to delete this order?")) return;
+
+  try {
+    await fetch(`${API_URL}/orders/${id}`, {
+      method: "DELETE"
+    });
+
+    loadOrders(); // refresh orders
+  } catch (err) {
+    console.error("Failed to delete order:", err);
+  }
+}
 
   const filteredOrders = orders.filter((order) => {
     return (

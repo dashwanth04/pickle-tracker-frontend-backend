@@ -214,17 +214,25 @@ export default function Home() {
           </tr>
         </thead>
 
-        <tbody>
-          {filteredOrders.map((o) => (
-            <tr key={o._id}>
-              <td style={styles.td}>{o.date}</td>
-              <td style={styles.td}>{o.customer}</td>
-              <td style={styles.td}>{o.pickle}</td>
-              <td style={styles.td}>{o.weight} kg</td>
-              <td style={styles.td}>₹{o.total}</td>
-            </tr>
-          ))}
-        </tbody>
+       <tbody>
+  {filteredOrders.map((o) => (
+    <tr key={o._id}>
+      <td style={styles.td}>{o.date}</td>
+      <td style={styles.td}>{o.customer}</td>
+      <td style={styles.td}>{o.pickle}</td>
+      <td style={styles.td}>{o.weight} kg</td>
+      <td style={styles.td}>₹{o.total}</td>
+      <td style={styles.td}>
+        <button
+          onClick={() => deleteOrder(o._id)}
+          style={styles.deleteBtn}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
       </table>
 
       <div style={styles.totalSales}>

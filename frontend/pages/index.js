@@ -32,7 +32,7 @@ export default function Home() {
   }
 
   async function addOrder() {
-    if (!formData.customer || !formData.pickle || !formData.price) {
+    if (!formData.pickle || !formData.price) {
       alert("Please fill all fields");
       return;
     }

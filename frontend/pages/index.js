@@ -285,7 +285,7 @@ export default function Home() {
                 <tr key={o._id} style={styles.row}>
 
                   <td>{o.date}</td>
-                  <td>{o.customer || "Walk-in"}</td>
+                  <td>{o.customer}</td>
                   <td>{o.pickle}</td>
                   <td>{o.weight} kg</td>
                   <td>₹{o.total}</td>

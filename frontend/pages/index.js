@@ -1,5 +1,4 @@
 
-import "../utils/teluguFont";
 import { useState, useEffect } from "react";
 
 const API_URL = "https://pickle-tracker-frontend-backend.onrender.com";

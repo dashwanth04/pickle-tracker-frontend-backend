@@ -93,7 +93,7 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>🥒 Pickle Delivery Tracker</h2>
+      <h2 style={styles.header}>👵🏻Pickle Delivery Tracker</h2>
 
       {/* Filters */}
 
